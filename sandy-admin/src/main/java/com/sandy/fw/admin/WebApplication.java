@@ -9,7 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan("com.sandy.fw")
-@MapperScan("com.sandy.fw.**.mapper")
 public class WebApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
