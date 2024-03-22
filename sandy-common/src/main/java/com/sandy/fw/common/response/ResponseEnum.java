@@ -7,7 +7,8 @@ public enum ResponseEnum {
     FAIL("00001", "fail"),
     ERROR("00002", "服务器开小差了"),
     PARAM_ERROR("00003", "参数错误"),
-    UNAUTHORIZED("00004", "授权验证未通过");
+    UNAUTHORIZED("00004", "认证未通过"),
+    UN_ACCESS_DENIED("00005", "无权限访问");
 
     private final String code;
     private final String msg;

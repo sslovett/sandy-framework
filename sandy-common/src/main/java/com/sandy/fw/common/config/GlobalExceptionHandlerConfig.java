@@ -50,6 +50,7 @@ public class GlobalExceptionHandlerConfig {
                 .body(ServerResponseEntity.fail(e.getCode(), e.getMessage()));
     }
 
+    @ExceptionHandler({Exception.class})
     public ResponseEntity<ServerResponseEntity<?>> exceptionHandler(Exception e) {
         log.error("exceptionHandler", e);
         return ResponseEntity.status(HttpStatus.OK)

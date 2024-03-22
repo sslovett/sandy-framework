@@ -8,5 +8,8 @@
 - logback
 - 封装统一的出参
 - javax.validation参数验证框架
-- 全局异常处理
+- 全局自定义异常处理
+- spring-security框架
+- jwt token管理
+- redis集成
 - 

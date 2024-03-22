@@ -18,7 +18,7 @@
         <dependency>
             <groupId>com.sandy.fw</groupId>
             <artifactId>sandy-common</artifactId>
-            <version>${sandy.common}</version>
+            <version>${sandy-common.version}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -28,6 +28,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sandy.fw</groupId>
+            <artifactId>sandy-security</artifactId>
+            <version>${sandy-security.version}</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.dev33</groupId>-->
+<!--            <artifactId>sa-token-spring-boot-starter</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>
