@@ -10,6 +10,6 @@
 - javax.validation参数验证框架
 - 全局自定义异常处理
 - spring-security框架
-- jwt token管理
+- jwt token认证
 - redis集成
 - 

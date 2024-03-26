@@ -1,9 +1,14 @@
 package com.sandy.fw.security.bean;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 public class UserInfoToken implements UserDetails {
@@ -16,9 +21,22 @@ public class UserInfoToken implements UserDetails {
 
     private Boolean status;
 
+    private Set<String> perms;
+
+    /**
+     * 角色列表
+     */
+    @JSONField(serialize = false)
+    private List<SimpleGrantedAuthority> authorities;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        if(null!=authorities) {
+            return this.authorities;
+        }
+        authorities = perms.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+
+        return this.authorities;
     }
 
     @Override

@@ -9,52 +9,52 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 系统用户
- * @TableName tz_sys_user
+ * 角色信息表
+ * @TableName sys_role
  */
-@TableName(value ="tz_sys_user")
+@TableName(value ="sys_role")
 @Data
-public class TzSysUser implements Serializable {
+public class SysRole implements Serializable {
     /**
-     * 
+     * 角色ID
      */
     @TableId(type = IdType.AUTO)
-    private Long userId;
+    private Long id;
 
     /**
-     * 用户名
+     * 角色名称
      */
-    private String username;
+    private String name;
 
     /**
-     * 密码
+     * 角色状态（1正常0停用）
      */
-    private String password;
+    private String status;
 
     /**
-     * 邮箱
+     * 创建者
      */
-    private String email;
-
-    /**
-     * 手机号
-     */
-    private String mobile;
-
-    /**
-     * 状态  0：禁用   1：正常
-     */
-    private Integer status;
-
-    /**
-     * 创建者ID
-     */
-    private Long createUserId;
+    private Long createBy;
 
     /**
      * 创建时间
      */
     private Date createTime;
+
+    /**
+     * 更新者
+     */
+    private Long updateBy;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
