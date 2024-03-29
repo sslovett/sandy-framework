@@ -14,8 +14,8 @@
 - redis集成
 - 集成swagger接口文档
 - captcha验证码
+- 集成前端页面
 
 ## TodoList
 - 数据库读写分离
 - 集成xxl-job
-- 集成前端页面
