@@ -23,4 +23,6 @@ public class DefaultException extends RuntimeException {
         this.code = ResponseEnum.FAIL.value();
         this.addSuppressed(e);
     }
+
+
 }

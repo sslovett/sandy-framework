@@ -38,4 +38,14 @@
         )
     </select>
 
+    <select id="listMenuByUserId" resultMap="BaseResultMap">
+        select * from sys_menu where id in (
+            select menu_id from sys_role_menu where role_id in (
+                select role_id from sys_user_role where user_id = #{userId}
+            )
+            and sys_menu.type != 2 order by sys_menu.order_num
+        )
+
+    </select>
+
 </mapper>

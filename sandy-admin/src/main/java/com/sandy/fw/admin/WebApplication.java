@@ -1,5 +1,6 @@
 package com.sandy.fw.admin;
 
+import com.sandy.fw.security.bean.UserInfoToken;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,5 +15,6 @@ public class WebApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(WebApplication.class, args);
     }
+
 
 }

@@ -13,13 +13,15 @@ import java.util.stream.Collectors;
 @Data
 public class UserInfoToken implements UserDetails {
 
-    private String userId;
+    private Long userId;
 
     private String userName;
 
     private String password;
 
     private Boolean status;
+
+    private String token;
 
     private Set<String> perms;
 

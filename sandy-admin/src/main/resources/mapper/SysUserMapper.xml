@@ -11,7 +11,7 @@
             <result property="password" column="password" jdbcType="VARCHAR"/>
             <result property="status" column="status" jdbcType="CHAR"/>
             <result property="email" column="email" jdbcType="VARCHAR"/>
-            <result property="phonenumber" column="phonenumber" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
             <result property="sex" column="sex" jdbcType="CHAR"/>
             <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
             <result property="userType" column="user_type" jdbcType="CHAR"/>
@@ -25,7 +25,7 @@
     <sql id="Base_Column_List">
         id,user_name,nick_name,
         password,status,email,
-        phonenumber,sex,avatar,
+        phone,sex,avatar,
         user_type,create_by,create_time,
         update_by,update_time,del_flag
     </sql>

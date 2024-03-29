@@ -25,11 +25,14 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.plugin.version>3.12.0</maven.compiler.plugin.version>
         <java.version>1.8</java.version>
-        <springboot.version>2.1.4.RELEASE</springboot.version>
+        <springboot.version>2.6.7</springboot.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <sa-token.version>1.37.0</sa-token.version>
         <hutool.version>5.8.24</hutool.version>
         <fastjson.version>1.2.83</fastjson.version>
+        <knife4j.version>3.0.3</knife4j.version>
+        <spring-plugin.version>2.0.0.RELEASE</spring-plugin.version>
+        <captcha.version>1.3.0</captcha.version>
     </properties>
 
     <dependencyManagement>
@@ -61,6 +64,11 @@
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.anji-plus</groupId>
+                <artifactId>captcha</artifactId>
+                <version>${captcha.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -74,6 +82,16 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-core</artifactId>
+            <version>${spring-plugin.version}</version>
         </dependency>
     </dependencies>
 

@@ -14,4 +14,6 @@ import java.util.Set;
 public interface SysMenuService extends IService<SysMenu> {
 
     List<String> getUserPermissions(Long userId);
+
+    List<SysMenu> listMenuByUserId(Long userId);
 }

@@ -15,6 +15,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -47,18 +53,36 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login", "/captcha/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);//添加token校验filter
         http.exceptionHandling()
                 .authenticationEntryPoint(authenticationExceptionHandler)//添加认证失败处理
                 .accessDeniedHandler(accessDeniedExceptionHandler);//添加授权失败处理
+        http.cors().configurationSource(corsConfigSource());
 
 
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/login");
+        web.ignoring()
+                .antMatchers("/doc.html",
+                        "/webjars/**",
+                        "/favicon.ico",
+                        "/v2/api-docs",
+                        "/swagger-resources/**");
+    }
+
+    private CorsConfigurationSource corsConfigSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));//允许所有来源
+        configuration.setAllowedMethods(Collections.singletonList("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

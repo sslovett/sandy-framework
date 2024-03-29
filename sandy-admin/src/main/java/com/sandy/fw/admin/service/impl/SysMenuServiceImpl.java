@@ -1,12 +1,15 @@
 package com.sandy.fw.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sandy.fw.admin.constant.Constant;
 import com.sandy.fw.admin.models.SysMenu;
 import com.sandy.fw.admin.service.SysMenuService;
 import com.sandy.fw.admin.mapper.SysMenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +28,34 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
     @Override
     public List<String> getUserPermissions(Long userId) {
         return sysMenuMapper.getPermsByUserId(userId);
+    }
+
+    @Override
+    public List<SysMenu> listMenuByUserId(Long userId) {
+        List<SysMenu> sysMenus;
+        //超级管理员，拥有最高权限
+        if(userId == Constant.SUPER_ADMIN_ID) {
+            sysMenus = sysMenuMapper.selectList(new LambdaQueryWrapper<>(SysMenu.class)
+                    .ne(SysMenu::getType, 2)
+                    .orderByAsc(SysMenu::getOrderNum));
+        } else {
+            sysMenus = sysMenuMapper.listMenuByUserId(userId);
+        }
+        List<SysMenu> rootMenus = new ArrayList<>();
+        for(SysMenu sysMenu : sysMenus) {
+            if(sysMenu.getParentId() == 0) {
+                rootMenus.add(sysMenu);
+            }
+            for(SysMenu rootMenu : rootMenus) {
+                if(sysMenu.getParentId().equals(rootMenu.getId())) {
+                    if(rootMenu.getList() == null) {
+                        rootMenu.setList(new ArrayList<>());
+                    }
+                    rootMenu.getList().add(sysMenu);
+                }
+            }
+        }
+        return rootMenus;
     }
 }
 

@@ -6,7 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 用户表
@@ -49,7 +52,7 @@ public class SysUser implements Serializable {
     /**
      * 手机号
      */
-    private String phonenumber;
+    private String phone;
 
     /**
      * 用户性别（0男，1女，2未知）

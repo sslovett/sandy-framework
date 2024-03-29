@@ -50,8 +50,15 @@ public class AuthFilter extends OncePerRequestFilter {
                 chain.doFilter(request, response);
                 return;
             }
+            UserInfoToken userInfoToken = null;
             //检查登录token
-            UserInfoToken userInfoToken = tokenManager.checkLogin(accessToken);
+            try {
+                userInfoToken = tokenManager.checkLogin(accessToken);
+            }catch (Exception ex) {
+                log.error("请求地址：{"+ request.getRequestURI() +"}, 登录认证失败", ex);
+                ResponsePrintUtil.print(ServerResponseEntity.fail(ResponseEnum.UNAUTHORIZED));
+                return;
+            }
 
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(userInfoToken,null, userInfoToken.getAuthorities());
@@ -63,10 +70,10 @@ public class AuthFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             if(e instanceof DefaultException) {
                 DefaultException ex = (DefaultException) e;
-                log.error(ex.getMessage(), ex);
+                log.error("请求地址：{"+ request.getRequestURI() +"}, " + ex.getMessage(), ex);
                 ResponsePrintUtil.print(ServerResponseEntity.fail(ex.getCode(), ex.getMessage()));
             } else {
-                log.error("系统异常", e);
+                log.error("请求地址：{"+ request.getRequestURI() +"}, 系统异常", e);
                 ResponsePrintUtil.print(ServerResponseEntity.fail(ResponseEnum.PARAM_ERROR));
             }
         }
