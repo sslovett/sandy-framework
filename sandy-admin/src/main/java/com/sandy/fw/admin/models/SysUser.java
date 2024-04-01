@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -42,7 +43,7 @@ public class SysUser implements Serializable {
     /**
      * 账号状态（0正常 1停用）
      */
-    private String status;
+    private Integer status;
 
     /**
      * 邮箱
@@ -96,4 +97,10 @@ public class SysUser implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 角色ID列表
+     */
+    @TableField(exist=false)
+    private List<Long> roleIdList;
 }

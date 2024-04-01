@@ -9,7 +9,7 @@
             <result property="userName" column="user_name" jdbcType="VARCHAR"/>
             <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
             <result property="password" column="password" jdbcType="VARCHAR"/>
-            <result property="status" column="status" jdbcType="CHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
             <result property="email" column="email" jdbcType="VARCHAR"/>
             <result property="phone" column="phone" jdbcType="VARCHAR"/>
             <result property="sex" column="sex" jdbcType="CHAR"/>

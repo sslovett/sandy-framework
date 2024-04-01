@@ -1,11 +1,17 @@
 package com.sandy.fw.admin.controller;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sandy.fw.admin.constant.Constant;
 import com.sandy.fw.admin.dto.UpdatePasswordDTO;
+import com.sandy.fw.admin.models.SysRole;
 import com.sandy.fw.admin.models.SysUser;
+import com.sandy.fw.admin.models.SysUserRole;
+import com.sandy.fw.admin.service.SysRoleService;
+import com.sandy.fw.admin.service.SysUserRoleService;
 import com.sandy.fw.admin.service.SysUserService;
 import com.sandy.fw.common.exception.DefaultException;
 import com.sandy.fw.common.response.ServerResponseEntity;
@@ -18,15 +24,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
-@Api(tags = "用户管理")
+@Api(tags = "管理员信息")
 public class UserController {
 
     @Autowired
     private SysUserService userService;
+
+    @Autowired
+    private SysUserRoleService userRoleService;
 
     @Autowired
     private PasswordManager passwordManager;
@@ -34,13 +46,6 @@ public class UserController {
     @Autowired
     private TokenManager tokenManager;
 
-//    @GetMapping("/list")
-//    @PreAuthorize("hasAuthority('sys:user:list')")
-//    public ServerResponseEntity<List<SysUser>> list(SysUser user) {
-//        List<SysUser> areaList = userService.list(new LambdaQueryWrapper<SysUser>()
-//                .like(user.getUserName() != null, SysUser::getUserName, user.getUserName()));
-//        return ServerResponseEntity.success(areaList);
-//    }
 
     @GetMapping("/page")
     @PreAuthorize("hasAuthority('sys:user:page')")
@@ -54,6 +59,17 @@ public class UserController {
     @ApiOperation(value = "获取登录用户信息")
     public ServerResponseEntity<SysUser> info() {
         SysUser user = userService.getById(SecurityUtils.getUserInfo().getUserId());
+        return ServerResponseEntity.success(user);
+    }
+
+    @GetMapping("/info/{userId}")
+    @PreAuthorize("hasAuthority('sys:user:info')")
+    @ApiOperation(value = "根据id获取用户信息")
+    public ServerResponseEntity<SysUser> info(@PathVariable("userId") Long userId) {
+        SysUser user = userService.getById(userId);
+        List<SysUserRole> userRoleList = userRoleService.list(new LambdaQueryWrapper<>(SysUserRole.class)
+                .eq(SysUserRole::getUserId, userId));
+        user.setRoleIdList(userRoleList.stream().map(SysUserRole::getRoleId).collect(Collectors.toList()));
         return ServerResponseEntity.success(user);
     }
 
@@ -74,12 +90,77 @@ public class UserController {
         return ServerResponseEntity.success();
     }
 
-//    @PostMapping("/save")
-//    public ServerResponseEntity<Void> save(@Valid @RequestBody SysUser user){
-//        userService.save(user);
-//        return ServerResponseEntity.success();
-//    }
+    @PostMapping("/save")
+    @PreAuthorize("hasAuthority('sys:user:save')")
+    @ApiOperation(value = "新增管理员")
+    public ServerResponseEntity<Void> save(@Valid @RequestBody SysUser user){
+        SysUser dbUser = userService.getOne(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUserName, user.getUserName()));
+        if (null != dbUser) {
+            throw new DefaultException("用户名已存在");
+        }
+        user.setPassword(passwordManager.encode(user.getPassword()));
+        user.setCreateBy(SecurityUtils.getUserInfo().getUserId());
+        user.setCreateTime(new Date());
+        userService.saveUserAndUserRole(user);
+        return ServerResponseEntity.success();
+    }
 
+    @PostMapping("/update")
+    @PreAuthorize("hasAuthority('sys:user:update')")
+    @ApiOperation(value = "修改管理员")
+    public ServerResponseEntity<Void> update(@Valid @RequestBody SysUser user){
+        //禁止修改管理员信息
+        checkAdmin(user);
+        //判断账号是否存在
+        SysUser dbUser = userService.getOne(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUserName, user.getUserName()));
+        if (null != dbUser && !dbUser.getId().equals(user.getId())) {
+            throw new DefaultException("用户名已存在");
+        }
+        //判断是否需要修改密码
+        if (StrUtil.isNotBlank(user.getPassword())) {
+            user.setPassword(passwordManager.encode(user.getPassword()));
+        }else {
+            user.setPassword(null);
+        }
+        user.setUpdateBy(SecurityUtils.getUserInfo().getUserId());
+        user.setUpdateTime(new Date());
+        userService.updateUserAndUserRole(user);
+        return ServerResponseEntity.success();
+    }
 
+    @PostMapping("/delete")
+    @PreAuthorize("hasAuthority('sys:user:delete')")
+    @ApiOperation(value = "删除管理员")
+    public ServerResponseEntity<Void> delete(@RequestBody Long[] userIds){
+        if(userIds.length == 0) {
+            return ServerResponseEntity.fail("请选择要删除的用户");
+        }
+        if(ArrayUtil.contains(userIds, SecurityUtils.getUserInfo().getUserId())) {
+            return ServerResponseEntity.fail("禁止删除当前登录用户");
+        }
+        //禁止删除超级管理员账号
+        for(Long userId : userIds) {
+            checkAdmin(userId);
+        }
+        userService.deleteUserAndUserRole(userIds);
+        return ServerResponseEntity.success();
+    }
+
+    /**
+     * 禁止修改管理员账号信息
+     */
+    private void checkAdmin(SysUser user) {
+        if (user.getId() == Constant.SUPER_ADMIN_ID || user.getUserName().equals(Constant.SUPER_ADMIN_NAME)) {
+            throw new DefaultException("禁止修改管理员账号信息");
+        }
+    }
+
+    private void checkAdmin(Long userId) {
+        if (userId == Constant.SUPER_ADMIN_ID) {
+            throw new DefaultException("禁止修改管理员账号信息");
+        }
+    }
 
 }

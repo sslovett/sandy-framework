@@ -36,7 +36,7 @@
           v-if="isAuth('sys:user:update')"
           type="primary"
           icon="el-icon-edit"
-          @click.stop="onAddOrUpdate(scope.row.userId)"
+          @click.stop="onAddOrUpdate(scope.row.id)"
         >
           编辑
         </el-button>
@@ -45,7 +45,7 @@
           v-if="isAuth('sys:user:delete')"
           type="danger"
           icon="el-icon-delete"
-          @click.stop="onDelete(scope.row.userId)"
+          @click.stop="onDelete(scope.row.id)"
         >
           删除
         </el-button>
@@ -129,7 +129,7 @@ const onAddOrUpdate = (id) => {
  */
 const onDelete = (id) => {
   const userIds = id ? [id] : dataListSelections.value?.map(item => {
-    return item.userId
+    return item.id
   })
   ElMessageBox.confirm(`确定对[id=${userIds.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
     confirmButtonText: '确定',
@@ -137,8 +137,8 @@ const onDelete = (id) => {
     type: 'warning'
   }).then(() => {
     http({
-      url: http.adornUrl('/user'),
-      method: 'delete',
+      url: http.adornUrl('/user/delete'),
+      method: 'post',
       data: http.adornData(userIds, false)
     }).then(() => {
       ElMessage({

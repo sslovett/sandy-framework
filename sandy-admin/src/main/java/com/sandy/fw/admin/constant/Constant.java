@@ -13,5 +13,7 @@ package com.sandy.fw.admin.constant;
 public class Constant {
 	/** 超级管理员ID */
 	public static final int SUPER_ADMIN_ID = 1;
+	/** 超级管理员账号 */
+	public static final String SUPER_ADMIN_NAME = "admin";
 
 }

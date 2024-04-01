@@ -24,6 +24,9 @@ export const tableOption = {
     prop: 'userName',
     search: true
   }, {
+    label: '昵称',
+    prop: 'nickName'
+  }, {
     label: '邮箱',
     prop: 'email'
   }, {

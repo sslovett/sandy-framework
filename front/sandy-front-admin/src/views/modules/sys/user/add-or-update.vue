@@ -43,6 +43,15 @@
         />
       </el-form-item>
       <el-form-item
+        label="昵称"
+        prop="nickName"
+      >
+        <el-input
+          v-model="dataForm.nickName"
+          placeholder="昵称"
+        />
+      </el-form-item>
+      <el-form-item
         label="邮箱"
         prop="email"
       >
@@ -68,10 +77,10 @@
         <el-checkbox-group v-model="dataForm.roleIdList">
           <el-checkbox
             v-for="role in roleList"
-            :key="role.roleId"
-            :label="role.roleId"
+            :key="role.id"
+            :label="role.id"
           >
-            {{ role.roleName }}
+            {{ role.name }}
           </el-checkbox>
         </el-checkbox-group>
       </el-form-item>
@@ -114,6 +123,7 @@ const dataForm = reactive({
   userName: '',
   password: '',
   comfirmPassword: '',
+  nickName: '',
   email: '',
   mobile: '',
   roleIdList: [],
@@ -166,6 +176,10 @@ const dataRule = {
   comfirmPassword: [
     { validator: validateComfirmPassword, trigger: 'blur' }
   ],
+  nickName: [
+    { required: true, message: '昵称不能为空', trigger: 'blur' },
+    { pattern: /\s\S+|S+\s|\S/, message: '请输入正确的昵称', trigger: 'blur' }
+  ],
   email: [
     { required: true, message: '邮箱不能为空', trigger: 'blur' },
     { validator: validateEmail, trigger: 'blur' }
@@ -198,11 +212,12 @@ const init = (id) => {
         method: 'get',
         params: http.adornParams()
       }).then(({ data }) => {
-        dataForm.userName = data.username
+        dataForm.userName = data.userName
         dataForm.email = data.email
-        dataForm.mobile = data.mobile
+        dataForm.mobile = data.phone
         dataForm.roleIdList = data.roleIdList
         dataForm.status = data.status
+        dataForm.nickName = data.nickName
       })
     }
   })
@@ -216,14 +231,15 @@ const onSubmit = Debounce(() => {
   dataFormRef.value?.validate((valid) => {
     if (valid) {
       http({
-        url: http.adornUrl('/user'),
-        method: dataForm.id ? 'put' : 'post',
+        url: dataForm.id ? http.adornUrl('/user/update') : http.adornUrl('/user/save'),
+        method: 'post',
         data: http.adornData({
-          userId: dataForm.id || undefined,
-          username: dataForm.userName,
+          id: dataForm.id || undefined,
+          userName: dataForm.userName,
           password: encrypt(dataForm.password),
+          nickName: dataForm.nickName,
           email: dataForm.email,
-          mobile: dataForm.mobile,
+          phone: dataForm.mobile,
           status: dataForm.status,
           roleIdList: dataForm.roleIdList
         })

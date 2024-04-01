@@ -1,10 +1,20 @@
 package com.sandy.fw.admin.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sandy.fw.admin.mapper.SysUserRoleMapper;
 import com.sandy.fw.admin.models.SysUser;
+import com.sandy.fw.admin.models.SysUserRole;
+import com.sandy.fw.admin.service.SysUserRoleService;
 import com.sandy.fw.admin.service.SysUserService;
 import com.sandy.fw.admin.mapper.SysUserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
 * @author Administrator
@@ -15,6 +25,42 @@ import org.springframework.stereotype.Service;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     implements SysUserService{
 
+    @Autowired
+    SysUserRoleService userRoleService;
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveUserAndUserRole(SysUser user) {
+        //保存用户信息
+        this.save(user);
+        if(CollUtil.isEmpty(user.getRoleIdList())) {
+            return ;
+        }
+        //保存用户与角色的关系
+        userRoleService.saveBatch(user.getId(), user.getRoleIdList());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateUserAndUserRole(SysUser user) {
+        this.updateById(user);
+        if(CollUtil.isEmpty(user.getRoleIdList())) {
+            return ;
+        }
+        //删除用户与角色关系
+        userRoleService.remove(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, user.getId()));
+        //保存用户与角色关系
+        userRoleService.saveBatch(user.getId(), user.getRoleIdList());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteUserAndUserRole(Long[] userIds) {
+        //删除用户信息
+        this.removeByIds(CollUtil.toList(userIds));
+        //删除用户与角色关系
+        userRoleService.remove(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getUserId, userIds));
+    }
 }
 
 
