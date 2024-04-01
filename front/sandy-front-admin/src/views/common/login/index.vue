@@ -2,12 +2,12 @@
   <div class="login">
     <div class="login-box">
       <div class="top">
-        <div class="logo">
-          <img
-            src="~@/assets/img/login-logo.png"
-            alt=""
-          >
-        </div>
+<!--        <div class="logo">-->
+<!--          <img-->
+<!--            src="~@/assets/img/login-logo.png"-->
+<!--            alt=""-->
+<!--          >-->
+<!--        </div>-->
       </div>
       <div class="mid">
         <el-form

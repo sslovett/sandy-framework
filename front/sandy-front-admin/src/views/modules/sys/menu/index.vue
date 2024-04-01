@@ -18,13 +18,13 @@
       :data="dataList"
       border
       style="width: 100%;"
-      row-key="menuId"
+      row-key="id"
     >
       <el-table-column
-        prop="name"
+        prop="menuName"
         header-align="center"
-        tree-key="menuId"
-        width="150"
+        tree-key="id"
+        width="200"
         label="名称"
       />
       <el-table-column
@@ -34,7 +34,7 @@
       >
         <template #default="scope">
           <svg-icon
-            :icon-class="`icon-${scope.row.icon}`"
+            :icon-class="`${scope.row.icon}`"
           />
         </template>
       </el-table-column>
@@ -73,7 +73,7 @@
         label="排序号"
       />
       <el-table-column
-        prop="url"
+        prop="path"
         header-align="center"
         align="center"
         width="150"
@@ -81,7 +81,7 @@
         label="菜单URL"
       >
         <template #default="scope">
-          {{ scope.row.url || '-' }}
+          {{ scope.row.path || '-' }}
         </template>
       </el-table-column>
       <el-table-column
@@ -108,7 +108,7 @@
             v-if="isAuth('sys:menu:update')"
             type="text"
 
-            @click="onAddOrUpdate(scope.row.menuId)"
+            @click="onAddOrUpdate(scope.row.id)"
           >
             修改
           </el-button>
@@ -116,7 +116,7 @@
             v-if="isAuth('sys:menu:delete')"
             type="text"
 
-            @click="onDelete(scope.row.menuId)"
+            @click="onDelete(scope.row.id)"
           >
             删除
           </el-button>
@@ -153,7 +153,7 @@ const getDataList = () => {
     method: 'get',
     params: http.adornParams()
   }).then(({ data }) => {
-    dataList.value = treeDataTranslate(data, 'menuId')
+    dataList.value = treeDataTranslate(data, 'id')
   })
 }
 const addOrUpdateRef = ref(null)
@@ -179,8 +179,8 @@ const onDelete = (id) => {
     type: 'warning'
   }).then(() => {
     http({
-      url: http.adornUrl(`/menu/${id}`),
-      method: 'delete',
+      url: http.adornUrl(`/menu/delete/${id}`),
+      method: 'post',
       data: http.adornData()
     }).then(() => {
       ElMessage({

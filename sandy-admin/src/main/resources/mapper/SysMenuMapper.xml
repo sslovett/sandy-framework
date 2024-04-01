@@ -10,7 +10,7 @@
             <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
             <result property="path" column="path" jdbcType="VARCHAR"/>
             <result property="component" column="component" jdbcType="VARCHAR"/>
-            <result property="type" column="type" jdbcType="CHAR"/>
+            <result property="type" column="type" jdbcType="INTEGER"/>
             <result property="status" column="status" jdbcType="CHAR"/>
             <result property="perms" column="perms" jdbcType="VARCHAR"/>
             <result property="icon" column="icon" jdbcType="VARCHAR"/>
@@ -38,13 +38,21 @@
         )
     </select>
 
+    <select id="listMenuNoBtnByUserId" resultMap="BaseResultMap">
+        select * from sys_menu where id in (
+            select menu_id from sys_role_menu where role_id in (
+                select role_id from sys_user_role where user_id = #{userId}
+            )
+        ) and sys_menu.type != 2 order by sys_menu.order_num
+
+    </select>
+
     <select id="listMenuByUserId" resultMap="BaseResultMap">
         select * from sys_menu where id in (
             select menu_id from sys_role_menu where role_id in (
                 select role_id from sys_user_role where user_id = #{userId}
             )
-            and sys_menu.type != 2 order by sys_menu.order_num
-        )
+            ) order by sys_menu.order_num
 
     </select>
 

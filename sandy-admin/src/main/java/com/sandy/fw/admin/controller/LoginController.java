@@ -13,6 +13,7 @@ import com.sandy.fw.admin.models.SysMenu;
 import com.sandy.fw.admin.models.SysUser;
 import com.sandy.fw.admin.service.SysMenuService;
 import com.sandy.fw.admin.service.SysUserService;
+import com.sandy.fw.common.annotation.Log;
 import com.sandy.fw.common.exception.DefaultException;
 import com.sandy.fw.common.response.ServerResponseEntity;
 import com.sandy.fw.security.bean.UserInfoToken;
@@ -80,7 +81,7 @@ public class LoginController {
         UserInfoToken userInfo = new UserInfoToken();
         userInfo.setUserId(tzSysUser.getId());
         userInfo.setUserName(tzSysUser.getUserName());
-        userInfo.setStatus(tzSysUser.getStatus().equals("1"));
+        userInfo.setStatus(tzSysUser.getStatus() == 1);
         userInfo.setPerms(getUserPermissions(tzSysUser.getId()));//权限列表存入redis，存在的问题是添加或修改权限后需要重新登录
 
         String token = tokenManager.login(userInfo);
@@ -93,6 +94,7 @@ public class LoginController {
 
     @PostMapping("/logOut")
     @ApiOperation(value = "退出登录")
+    @Log("退出登录")
     public ServerResponseEntity<?> logout() {
         //删除用户当前的token信息
         String token = SecurityUtils.getUserInfo().getToken();

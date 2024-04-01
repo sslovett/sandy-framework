@@ -13,6 +13,7 @@ import com.sandy.fw.admin.models.SysUserRole;
 import com.sandy.fw.admin.service.SysRoleService;
 import com.sandy.fw.admin.service.SysUserRoleService;
 import com.sandy.fw.admin.service.SysUserService;
+import com.sandy.fw.common.annotation.Log;
 import com.sandy.fw.common.exception.DefaultException;
 import com.sandy.fw.common.response.ServerResponseEntity;
 import com.sandy.fw.security.password.PasswordManager;
@@ -75,6 +76,7 @@ public class UserController {
 
     @PostMapping("/password")
     @ApiOperation(value = "修改密码")
+    @Log("修改密码")
     public ServerResponseEntity<Void> password(@Valid @RequestBody UpdatePasswordDTO param) {
         SysUser sysUser = userService.getById(SecurityUtils.getUserInfo().getUserId());
         if (null == sysUser) {
@@ -93,6 +95,7 @@ public class UserController {
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('sys:user:save')")
     @ApiOperation(value = "新增管理员")
+    @Log("新增管理员")
     public ServerResponseEntity<Void> save(@Valid @RequestBody SysUser user){
         SysUser dbUser = userService.getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUserName, user.getUserName()));
@@ -109,6 +112,7 @@ public class UserController {
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('sys:user:update')")
     @ApiOperation(value = "修改管理员")
+    @Log("修改管理员")
     public ServerResponseEntity<Void> update(@Valid @RequestBody SysUser user){
         //禁止修改管理员信息
         checkAdmin(user);
@@ -133,6 +137,7 @@ public class UserController {
     @PostMapping("/delete")
     @PreAuthorize("hasAuthority('sys:user:delete')")
     @ApiOperation(value = "删除管理员")
+    @Log("删除管理员")
     public ServerResponseEntity<Void> delete(@RequestBody Long[] userIds){
         if(userIds.length == 0) {
             return ServerResponseEntity.fail("请选择要删除的用户");

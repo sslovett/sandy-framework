@@ -172,8 +172,8 @@ const dataForm = reactive({
 const menuList = ref([])
 const selectedMenu = ref([])
 const menuListTreeProps = {
-  value: 'menuId',
-  label: 'name',
+  value: 'id',
+  label: 'menuName',
   checkStrictly: true
 }
 
@@ -219,7 +219,7 @@ const init = (id) => {
     params: http.adornParams()
   })
     .then(({ data }) => {
-      menuList.value = treeDataTranslate(data, 'menuId')
+      menuList.value = treeDataTranslate(data, 'id')
     })
     .then(() => {
       visible.value = true
@@ -235,15 +235,15 @@ const init = (id) => {
           method: 'get',
           params: http.adornParams()
         }).then(({ data }) => {
-          dataForm.id = data.menuId
+          dataForm.id = data.id
           dataForm.type = data.type
-          dataForm.name = data.name
+          dataForm.name = data.menuName
           dataForm.parentId = data.parentId
-          dataForm.url = data.url
+          dataForm.url = data.path
           dataForm.perms = data.perms
           dataForm.orderNum = data.orderNum
           dataForm.icon = data.icon
-          selectedMenu.value = idList(menuList.value, data.parentId, 'menuId', 'children').reverse()
+          selectedMenu.value = idList(menuList.value, data.parentId, 'id', 'children').reverse()
         })
       } else {
         selectedMenu.value = []
@@ -269,14 +269,14 @@ const onSubmit = Debounce(() => {
   dataFormRef.value?.validate((valid) => {
     if (valid) {
       http({
-        url: http.adornUrl('/menu'),
+        url: dataForm.id ? http.adornUrl('/menu/update') : http.adornUrl('/menu/save'),
         method: dataForm.id ? 'put' : 'post',
         data: http.adornData({
-          menuId: dataForm.id || undefined,
+          id: dataForm.id || undefined,
           type: dataForm.type,
-          name: dataForm.name,
+          menuName: dataForm.name,
           parentId: dataForm.parentId,
-          url: dataForm.url,
+          path: dataForm.url,
           perms: dataForm.perms,
           orderNum: dataForm.orderNum,
           icon: dataForm.icon

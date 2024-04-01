@@ -3,11 +3,14 @@ package com.sandy.fw.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sandy.fw.admin.constant.Constant;
+import com.sandy.fw.admin.mapper.SysRoleMenuMapper;
 import com.sandy.fw.admin.models.SysMenu;
 import com.sandy.fw.admin.service.SysMenuService;
 import com.sandy.fw.admin.mapper.SysMenuMapper;
+import com.sandy.fw.admin.service.SysRoleMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,21 +28,24 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
     @Autowired
     SysMenuMapper sysMenuMapper;
 
+    @Autowired
+    SysRoleMenuService sysRoleMenuService;
+
     @Override
     public List<String> getUserPermissions(Long userId) {
         return sysMenuMapper.getPermsByUserId(userId);
     }
 
     @Override
-    public List<SysMenu> listMenuByUserId(Long userId) {
+    public List<SysMenu> treeMenuNoBtnByUserId(Long userId) {
         List<SysMenu> sysMenus;
         //超级管理员，拥有最高权限
         if(userId == Constant.SUPER_ADMIN_ID) {
-            sysMenus = sysMenuMapper.selectList(new LambdaQueryWrapper<>(SysMenu.class)
+            sysMenus = sysMenuMapper.selectList(new LambdaQueryWrapper<SysMenu>()
                     .ne(SysMenu::getType, 2)
                     .orderByAsc(SysMenu::getOrderNum));
         } else {
-            sysMenus = sysMenuMapper.listMenuByUserId(userId);
+            sysMenus = sysMenuMapper.listMenuNoBtnByUserId(userId);
         }
         List<SysMenu> rootMenus = new ArrayList<>();
         for(SysMenu sysMenu : sysMenus) {
@@ -56,6 +62,41 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
             }
         }
         return rootMenus;
+    }
+
+    @Override
+    public List<SysMenu> listMenuAndBtnByUserId(Long userId) {
+        List<SysMenu> sysMenus;
+        //超级管理员，拥有最高权限
+        if(userId == Constant.SUPER_ADMIN_ID) {
+            sysMenus = sysMenuMapper.selectList(new LambdaQueryWrapper<SysMenu>()
+                    .orderByAsc(SysMenu::getOrderNum));
+        } else {
+            sysMenus = sysMenuMapper.listMenuByUserId(userId);
+        }
+        return sysMenus;
+    }
+
+    @Override
+    public List<SysMenu> listMenuNoBtnByUserId(Long userId) {
+        List<SysMenu> sysMenus;
+        //超级管理员，拥有最高权限
+        if(userId == Constant.SUPER_ADMIN_ID) {
+            sysMenus = sysMenuMapper.selectList(new LambdaQueryWrapper<SysMenu>()
+                    .ne(SysMenu::getType, 2)
+                    .orderByAsc(SysMenu::getOrderNum));
+        } else {
+            sysMenus = sysMenuMapper.listMenuNoBtnByUserId(userId);
+        }
+        return sysMenus;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteMenuAndRole(Long menuId) {
+        this.removeById(menuId);
+        //删除角色关联关系
+        sysRoleMenuService.deleteByMenuId(menuId);
     }
 }
 

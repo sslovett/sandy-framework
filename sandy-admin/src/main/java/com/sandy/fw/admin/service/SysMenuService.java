@@ -15,5 +15,11 @@ public interface SysMenuService extends IService<SysMenu> {
 
     List<String> getUserPermissions(Long userId);
 
-    List<SysMenu> listMenuByUserId(Long userId);
+    List<SysMenu> treeMenuNoBtnByUserId(Long userId);
+
+    List<SysMenu> listMenuAndBtnByUserId(Long userId);
+
+    List<SysMenu> listMenuNoBtnByUserId(Long userId);
+
+    void deleteMenuAndRole(Long menuId);
 }

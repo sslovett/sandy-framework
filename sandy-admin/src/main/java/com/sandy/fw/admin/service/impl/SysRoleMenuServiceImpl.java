@@ -1,5 +1,6 @@
 package com.sandy.fw.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sandy.fw.admin.models.SysRoleMenu;
 import com.sandy.fw.admin.service.SysRoleMenuService;
@@ -15,6 +16,10 @@ import org.springframework.stereotype.Service;
 public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu>
     implements SysRoleMenuService{
 
+    @Override
+    public void deleteByMenuId(Long menuId) {
+        remove(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getMenuId, menuId));
+    }
 }
 
 
