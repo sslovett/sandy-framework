@@ -18,4 +18,6 @@ public interface SysUserRoleService extends IService<SysUserRole> {
      * @param roleIdList
      */
     void saveBatch(Long userId, List<Long> roleIdList);
+
+    void deleteByRoleId(Long[] roleIds);
 }

@@ -77,6 +77,14 @@ public class MenuController {
         return ServerResponseEntity.success();
     }
 
+    @GetMapping("/info/{menuId}")
+    @ApiOperation(value = "获取菜单信息")
+    @PreAuthorize("hasAuthority('sys:menu:info')")
+    public ServerResponseEntity<SysMenu> info(@PathVariable("menuId") Long menuId) {
+        SysMenu menu = sysMenuService.getById(menuId);
+        return ServerResponseEntity.success(menu);
+    }
+
     @PostMapping("/delete/{menuId}")
     @ApiOperation(value = "删除菜单")
     @Log("删除菜单")

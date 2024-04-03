@@ -10,4 +10,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SysRoleService extends IService<SysRole> {
 
+    void saveRoleAndRoleMenu(SysRole role);
+
+    void updateRoleAndRoleMenu(SysRole role);
+
+    void deleteRoleByIds(Long[] roleId);
 }

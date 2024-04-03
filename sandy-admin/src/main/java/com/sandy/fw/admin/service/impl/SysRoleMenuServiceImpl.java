@@ -1,11 +1,16 @@
 package com.sandy.fw.admin.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sandy.fw.admin.models.SysRoleMenu;
 import com.sandy.fw.admin.service.SysRoleMenuService;
 import com.sandy.fw.admin.mapper.SysRoleMenuMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
 * @author Administrator
@@ -16,9 +21,22 @@ import org.springframework.stereotype.Service;
 public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu>
     implements SysRoleMenuService{
 
+    @Autowired
+    SysRoleMenuMapper sysRoleMenuMapper;
+
     @Override
     public void deleteByMenuId(Long menuId) {
         remove(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getMenuId, menuId));
+    }
+
+    @Override
+    public void deleteByRoleId(Long[] roleIds) {
+        sysRoleMenuMapper.deleteByRoleId(roleIds);
+    }
+
+    @Override
+    public void saveRoleAndRoleMenu(List<SysRoleMenu> roleMenuList) {
+        this.saveBatch(roleMenuList);
     }
 }
 

@@ -34,7 +34,7 @@
           v-if="isAuth('sys:role:update')"
           type="primary"
           icon="el-icon-edit"
-          @click.stop="onAddOrUpdate(scope.row.roleId)"
+          @click.stop="onAddOrUpdate(scope.row.id)"
         >
           编辑
         </el-button>
@@ -43,7 +43,7 @@
           v-if="isAuth('sys:role:delete')"
           type="danger"
           icon="el-icon-delete"
-          @click.stop="onDelete(scope.row.roleId)"
+          @click.stop="onDelete(scope.row.id)"
         >
           删除
         </el-button>
@@ -77,7 +77,7 @@ const page = reactive({
  */
 const getDataList = (pageParam, params, done) => {
   http({
-    url: http.adornUrl('/sys/role/page'),
+    url: http.adornUrl('/role/page'),
     method: 'get',
     params: http.adornParams(
       Object.assign(
@@ -125,8 +125,10 @@ const onAddOrUpdate = (id) => {
  */
 const onDelete = (id) => {
   const ids = id ? [id] : dataListSelections.value?.map(item => {
-    return item.roleId
+    return item.id
   })
+  alert(ids)
+
   ElMessageBox.confirm(`确定进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -134,8 +136,8 @@ const onDelete = (id) => {
   })
     .then(() => {
       http({
-        url: http.adornUrl('/sys/role'),
-        method: 'delete',
+        url: http.adornUrl('/role/delete'),
+        method: 'post',
         data: http.adornData(ids, false)
       })
         .then(() => {

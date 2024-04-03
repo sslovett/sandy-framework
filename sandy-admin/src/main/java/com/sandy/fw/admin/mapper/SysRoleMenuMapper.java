@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
+    void deleteByRoleId(Long[] roleIds);
 }
 
 

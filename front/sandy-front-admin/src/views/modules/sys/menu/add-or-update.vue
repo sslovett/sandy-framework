@@ -270,7 +270,7 @@ const onSubmit = Debounce(() => {
     if (valid) {
       http({
         url: dataForm.id ? http.adornUrl('/menu/update') : http.adornUrl('/menu/save'),
-        method: dataForm.id ? 'put' : 'post',
+        method: 'post',
         data: http.adornData({
           id: dataForm.id || undefined,
           type: dataForm.type,

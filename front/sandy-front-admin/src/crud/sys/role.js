@@ -21,7 +21,7 @@ export const tableOption = {
   },
   column: [{
     label: '角色名称',
-    prop: 'roleName',
+    prop: 'name',
     search: true
   }, {
     label: '备注',

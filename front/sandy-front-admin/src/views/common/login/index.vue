@@ -44,7 +44,7 @@
         </el-form>
       </div>
       <div class="bottom">
-        Copyright © 2024 伊力科技有限公司
+        Copyright © 2024 XX科技有限公司
       </div>
     </div>
     <Verify

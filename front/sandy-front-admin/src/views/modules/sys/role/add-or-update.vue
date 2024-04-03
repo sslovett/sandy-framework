@@ -13,7 +13,7 @@
     >
       <el-form-item
         label="角色名称"
-        prop="roleName"
+        prop="name"
       >
         <el-input
           v-model="dataForm.roleName"
@@ -34,7 +34,7 @@
           ref="menuListTreeRef"
           :data="menuList"
           :props="menuListTreeProps"
-          node-key="menuId"
+          node-key="id"
           show-checkbox
         />
       </el-form-item>
@@ -61,7 +61,7 @@ const tempKey = -666666 // 临时key) 用于解决tree半选中状态项不能�
 const visible = ref(false)
 const menuList = ref([])
 const menuListTreeProps = {
-  label: 'name',
+  label: 'menuName',
   children: 'children'
 }
 const dataForm = reactive({
@@ -83,12 +83,13 @@ const menuListTreeRef = ref(null)
 const init = (id) => {
   dataForm.id = id || 0
   http({
-    url: http.adornUrl('/sys/menu/table'),
+    url: http.adornUrl('/menu/table'),
     method: 'get',
     params: http.adornParams()
   })
     .then(({ data }) => {
-      menuList.value = treeDataTranslate(data, 'menuId', 'parentId')
+      menuList.value = treeDataTranslate(data, 'id', 'parentId')
+      console.log(menuList.value)
     })
     .then(() => {
       visible.value = true
@@ -100,12 +101,12 @@ const init = (id) => {
     .then(() => {
       if (dataForm.id) {
         http({
-          url: http.adornUrl(`/sys/role/info/${dataForm.id}`),
+          url: http.adornUrl(`/role/info/${dataForm.id}`),
           method: 'get',
           params: http.adornParams()
         })
           .then(({ data }) => {
-            dataForm.roleName = data.roleName
+            dataForm.roleName = data.name
             dataForm.remark = data.remark
             const idx = data.menuIdList.indexOf(tempKey)
             if (idx !== -1) {
@@ -124,11 +125,11 @@ const onSubmit = Debounce(() => {
   dataFormRef.value?.validate((valid) => {
     if (valid) {
       http({
-        url: http.adornUrl('/sys/role'),
-        method: dataForm.id ? 'put' : 'post',
+        url: dataForm.id ? http.adornUrl('/role/update') : http.adornUrl('/role/save'),
+        method: 'post',
         data: http.adornData({
-          roleId: dataForm.id || undefined,
-          roleName: dataForm.roleName,
+          id: dataForm.id || undefined,
+          name: dataForm.roleName,
           remark: dataForm.remark,
           menuIdList: [].concat(menuListTreeRef.value?.getCheckedKeys(), [tempKey], menuListTreeRef.value?.getHalfCheckedKeys())
         })

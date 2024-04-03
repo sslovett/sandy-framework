@@ -29,7 +29,7 @@ onMounted(() => {
  */
 const getDataList = (pageParam, params, done) => {
   http({
-    url: http.adornUrl('/sys/log/page'),
+    url: http.adornUrl('/log/page'),
     method: 'get',
     params: http.adornParams(
       Object.assign(

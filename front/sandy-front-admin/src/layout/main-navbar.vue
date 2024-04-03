@@ -15,14 +15,14 @@
           v-if="!sidebarFold"
           class="site-navbar-lg"
         >
-          伊力管理系统
+          XX管理系统
         </span>
         <span
           v-else
           class="site-navbar-mini"
           :style="fontCloseSize"
         >
-          伊力
+          XX
         </span>
       </div>
       <!--右侧数据-->

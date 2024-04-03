@@ -1,9 +1,11 @@
 package com.sandy.fw.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sandy.fw.admin.models.SysUserRole;
 import com.sandy.fw.admin.service.SysUserRoleService;
 import com.sandy.fw.admin.mapper.SysUserRoleMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +20,9 @@ import java.util.List;
 public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole>
     implements SysUserRoleService{
 
+    @Autowired
+    SysUserRoleMapper sysUserRoleMapper;
+
     @Override
     public void saveBatch(Long userId, List<Long> roleIdList) {
         List<SysUserRole> userRoles = new ArrayList<>();
@@ -28,6 +33,11 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
             userRoles.add(userRole);
         });
         this.saveBatch(userRoles);
+    }
+
+    @Override
+    public void deleteByRoleId(Long[] roleIds) {
+        sysUserRoleMapper.deleteByRoleId(roleIds);
     }
 }
 
