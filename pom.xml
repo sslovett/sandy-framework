@@ -8,9 +8,6 @@
     <packaging>pom</packaging>
 
     <modules>
-<!--        <module>sandy-common</module>-->
-<!--        <module>sandy-core</module>-->
-<!--        <module>sandy-web</module>-->
         <module>sandy-admin</module>
         <module>sandy-common</module>
         <module>sandy-security</module>
@@ -107,10 +104,11 @@
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <parameters>true</parameters>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
             <!--打包部署必要插件-->
-            <plugin>
+      <!--      <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -118,7 +116,7 @@
                         <enabled>true</enabled>
                     </layers>
                 </configuration>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 
