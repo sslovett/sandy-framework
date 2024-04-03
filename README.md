@@ -1,4 +1,4 @@
-**一个基于spring boot、spring security、mybatis plus、redis的轻量级、前后端分离、认证授权权限基础框架，开箱即用**
+**一个基于spring boot、spring security、mybatis plus、redis的轻量级、前后端分离、认证+授权权限基础框架，开箱即用**
 
 ## 当前已具备的功能
 - 用户登录+滑块验证码
