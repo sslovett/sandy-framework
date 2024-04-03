@@ -29,13 +29,13 @@
 
 ## 部署教程
 ### 1.项目结构
-| 项目 | 说明|
-| --- | --- |
-doc  |  数据库脚本
-front | 后台管理系统前端代码
-sandy-admin |   后台管理系统后端代码
-sandy-common |  工具包
-sandy-security | 基于spring security的认证和授权代码
+| 项目 | 说明 |
+| --- |---|
+doc  | 数据库脚本                     
+front | 后台管理系统前端代码                
+sandy-admin | 后台管理系统后端代码                
+sandy-common | 工具包                       
+sandy-security | 基于spring security的认证和授权代码 
 ### 2.开发环境
 | 工具| 版本|
 | --- | --- |
