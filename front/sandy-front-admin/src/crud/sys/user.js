@@ -1,6 +1,6 @@
 export const tableOption = {
   searchMenuSpan: 6,
-  columnBtn: false,
+  columnBtn: true,
   border: true,
   selection: true,
   index: false,
@@ -39,6 +39,7 @@ export const tableOption = {
     label: '状态',
     prop: 'status',
     type: 'select',
+    slot: true,
     dicData: [
       {
         label: '禁用',

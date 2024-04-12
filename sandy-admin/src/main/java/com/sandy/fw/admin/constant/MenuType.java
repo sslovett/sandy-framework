@@ -4,23 +4,23 @@ public enum MenuType {
     /**
      * 目录
      */
-    CATALOG(0),
+    CATALOG("M"),
     /**
      * 菜单
      */
-    MENU(1),
+    MENU("C"),
     /**
      * 按钮
      */
-    BUTTON(2);
+    BUTTON("F");
 
-    private int value;
+    private String value;
 
-    MenuType(int value) {
+    MenuType(String value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 }

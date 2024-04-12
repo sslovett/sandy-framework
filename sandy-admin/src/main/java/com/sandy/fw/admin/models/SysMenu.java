@@ -46,9 +46,9 @@ public class SysMenu implements Serializable {
     private String component;
 
     /**
-     * 类型   0：目录   1：菜单   2：按钮
+     * 类型   M：目录   C：菜单   F：按钮
      */
-    private Integer type;
+    private String type;
 
     /**
      * 菜单状态（0正常 1停用）

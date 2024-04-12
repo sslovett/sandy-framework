@@ -14,7 +14,7 @@
             >
               <svg-icon
                 icon-class="icon-shouye"
-                style="font-size: 16px; margin-right: 3px !important"
+                style="font-size: 14px; margin-right: 3px !important"
               />
               <span style="font-size: 14px">首页</span>
             </div>
@@ -39,8 +39,8 @@
               >
                 <svg-icon
                   v-if="menu.icon"
-                  :icon-class="`icon-${menu.icon}`"
-                  style="font-size: 16px; margin-right: 3px !important"
+                  :icon-class="`${menu.icon}`"
+                  style="font-size: 14px; margin-bottom: 2px; margin-right: 3px !important"
                 />
                 <span
                   class="item-text"
@@ -60,7 +60,7 @@
                 <svg-icon
                   v-if="menu.icon"
                   :icon-class="menu.icon || ''"
-                  style="font-size: 16px; margin-right: 3px !important"
+                  style="font-size: 14px; margin-right: 3px !important"
                   class="site-sidebar__menu-icon"
                 />
                 <span

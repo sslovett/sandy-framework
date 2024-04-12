@@ -107,7 +107,7 @@ public class MenuController {
      * 验证参数是否正确
      */
     private void verifyForm(SysMenu menu){
-        if(menu.getType() == MenuType.MENU.getValue()){
+        if(menu.getType().equals(MenuType.MENU.getValue())){
             if(StrUtil.isBlank(menu.getPath())){
                 throw new DefaultException("菜单URL不能为空");
             }
@@ -117,24 +117,24 @@ public class MenuController {
         }
 
         //上级菜单类型
-        int parentType = MenuType.CATALOG.getValue();
+        String parentType = MenuType.CATALOG.getValue();
         if(menu.getParentId() != 0){
             SysMenu parentMenu = sysMenuService.getById(menu.getParentId());
             parentType = parentMenu.getType();
         }
 
         //目录、菜单
-        if(menu.getType() == MenuType.CATALOG.getValue() ||
-                menu.getType() == MenuType.MENU.getValue()){
-            if(parentType != MenuType.CATALOG.getValue()){
+        if(menu.getType().equals(MenuType.CATALOG.getValue()) ||
+                menu.getType().equals(MenuType.MENU.getValue())) {
+            if(!parentType.equals(MenuType.MENU.getValue())){
                 throw new DefaultException("上级菜单只能为目录类型");
             }
             return ;
         }
 
         //按钮
-        if(menu.getType() == MenuType.BUTTON.getValue()){
-            if(parentType != MenuType.MENU.getValue()){
+        if(menu.getType().equals(MenuType.BUTTON.getValue())){
+            if(!parentType.equals(MenuType.MENU.getValue())){
                 throw new DefaultException("上级菜单只能为菜单类型");
             }
         }

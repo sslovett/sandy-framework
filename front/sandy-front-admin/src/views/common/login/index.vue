@@ -47,6 +47,7 @@
         Copyright © 2024 XX科技有限公司
       </div>
     </div>
+
     <Verify
       ref="verifyRef"
       :captcha-type="'blockPuzzle'"

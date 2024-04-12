@@ -9,6 +9,15 @@
       @selection-change="selectionChange"
       @on-load="getDataList"
     >
+      <template v-slot:status="{row}">
+        <span v-if="row.status === 1" style="background-color: #1ab293; color: #fff; border-radius: 10px; padding: 5px 5px;">
+          正常
+        </span>
+        <span
+          v-else-if="row.status === 0" style="background-color: #ab5959; color: #fff; border-radius: 10px; padding: 5px 5px;">
+          禁用
+        </span>
+      </template>
       <template #menu-left>
         <el-button
           v-if="isAuth('sys:user:save')"
@@ -22,7 +31,7 @@
         <el-button
           v-if="isAuth('sys:user:delete')"
           type="danger"
-
+          icon="el-icon-delete"
           :disabled="dataListSelections.length <= 0"
           @click="onDelete()"
         >
@@ -152,4 +161,5 @@ const onDelete = (id) => {
     })
   }).catch(() => { })
 }
+
 </script>

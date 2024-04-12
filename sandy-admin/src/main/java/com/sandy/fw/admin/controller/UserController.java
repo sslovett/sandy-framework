@@ -50,6 +50,7 @@ public class UserController {
 
     @GetMapping("/page")
     @PreAuthorize("hasAuthority('sys:user:page')")
+    @ApiOperation(value = "分页获取用户列表")
     public ServerResponseEntity<IPage<SysUser>> page(String userName, Page<SysUser> page) {
         IPage<SysUser> areaList = userService.page(page, new LambdaQueryWrapper<SysUser>()
                 .like(StrUtil.isNotBlank(userName), SysUser::getUserName, userName));

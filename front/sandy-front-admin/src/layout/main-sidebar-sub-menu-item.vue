@@ -7,7 +7,7 @@
       >
         <template #title>
           <span
-            style="font-size: 14px"
+            style="font-size: 13px"
             :title="expandMenu.menuName.length > 4 ? expandMenu.menuName : ''"
           >{{ expandMenu.menuName }}</span>
         </template>
@@ -17,7 +17,7 @@
               v-if="!menu.hidden"
               :key="menu.id"
               style="
-                font-size: 14px !important;
+                font-size: 13px !important;
                 line-height: 40px;
                 padding-left: 30px !important;
                 padding-right: 10px !important;
@@ -40,11 +40,17 @@
       <el-menu-item
         v-if="!expandMenu.hidden"
         :key="expandMenu.id"
-        style="font-size: 14px !important; padding-left: 15px !important; line-height: 40px"
+        style="font-size: 13px !important; padding-left: 15px !important; line-height: 40px"
         class="menu-right-el-item is-active item-text"
         :class="{ 'menu-active': selectRightId === expandMenu.id }"
         @click="gotoRouteHandle(expandMenu)"
       >
+        <svg-icon
+          v-if="expandMenu.icon"
+          :icon-class="expandMenu.icon || ''"
+          style="font-size: 13px; margin-top: 1px ;margin-right: 4px !important"
+          class="site-sidebar__menu-icon"
+        />
         <span :title="expandMenu.menuName.length > 4 ? expandMenu.menuName : ''">{{
           expandMenu.menuName
         }}</span>
