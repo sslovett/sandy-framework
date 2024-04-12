@@ -126,7 +126,7 @@ public class MenuController {
         //目录、菜单
         if(menu.getType().equals(MenuType.CATALOG.getValue()) ||
                 menu.getType().equals(MenuType.MENU.getValue())) {
-            if(!parentType.equals(MenuType.MENU.getValue())){
+            if(!parentType.equals(MenuType.CATALOG.getValue())){
                 throw new DefaultException("上级菜单只能为目录类型");
             }
             return ;
