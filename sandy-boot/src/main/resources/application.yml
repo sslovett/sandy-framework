@@ -1,0 +1,41 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /admin
+
+spring:
+  profiles:
+    # dev|prod
+    active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  # 多数据源配置
+  datasource:
+    dynamic:
+      # 主数据源，默认使用 system
+      primary: system
+      # 严格模式，未匹配到数据源时抛异常
+      strict: true
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+
+# jwt配置
+jwt:
+  token-name: x-access-token
+  # token 有效期（单位：秒） 默认30分钟
+  timeout: 1800
+  # 万能token，拥有所有权限，忽略所有认证，为空则不生效（测试使用）
+  powerful-token: fhdu348Ifjcnjsj2dkwh2
+
+# swagger全局配置
+knife4j:
+  enable: true
+  basic:
+    enable: true
+    username: admin
+    password: 123456

@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    dynamic:
+      # 主数据源，默认使用 system
+      primary: system
+      # 严格模式，未匹配到数据源时抛异常
+      strict: true
+      datasource:
+        # 系统管理数据源 - 测试环境使用 H2
+        system:
+          url: jdbc:h2:mem:sandy_system;DB_CLOSE_DELAY=-1;MODE=MySQL
+          username: sa
+          password: 
+          driver-class-name: org.h2.Driver
+        # 支付模块数据源 - 测试环境使用 H2
+        pay:
+          url: jdbc:h2:mem:sandy_pay;DB_CLOSE_DELAY=-1;MODE=MySQL
+          username: sa
+          password: 
+          driver-class-name: org.h2.Driver
+  # 禁用 Redis 自动配置（测试环境）
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*Mapper.xml

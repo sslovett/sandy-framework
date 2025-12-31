@@ -1,0 +1,5 @@
+com\sandy\fw\pay\mapper\PayChannelMapper.class
+com\sandy\fw\pay\controller\PayChannelController.class
+com\sandy\fw\pay\service\impl\PayChannelServiceImpl.class
+com\sandy\fw\pay\entity\PayChannel.class
+com\sandy\fw\pay\service\PayChannelService.class

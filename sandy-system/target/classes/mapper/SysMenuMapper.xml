@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sandy.fw.system.mapper.SysMenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.sandy.fw.system.models.SysMenu">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+            <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
+            <result property="path" column="path" jdbcType="VARCHAR"/>
+            <result property="component" column="component" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="CHAR"/>
+            <result property="perms" column="perms" jdbcType="VARCHAR"/>
+            <result property="icon" column="icon" jdbcType="VARCHAR"/>
+            <result property="createBy" column="create_by" jdbcType="BIGINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by" jdbcType="BIGINT"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,parent_id,menu_name,path,
+        component,type,status,
+        perms,icon,create_by,
+        create_time,update_by,update_time,
+        remark,order_num
+    </sql>
+
+    <select id="getPermsByUserId" resultType="string">
+        select perms from sys_menu where id in (
+            select menu_id from sys_role_menu where role_id in (
+                select role_id from sys_user_role where user_id = #{userId}
+            )
+        )
+    </select>
+
+    <select id="listMenuNoBtnByUserId" resultMap="BaseResultMap">
+        select * from sys_menu where id in (
+            select menu_id from sys_role_menu where role_id in (
+                select role_id from sys_user_role where user_id = #{userId}
+            )
+        ) and sys_menu.type != 2 order by sys_menu.order_num
+
+    </select>
+
+    <select id="listMenuByUserId" resultMap="BaseResultMap">
+        select * from sys_menu where id in (
+            select menu_id from sys_role_menu where role_id in (
+                select role_id from sys_user_role where user_id = #{userId}
+            )
+            ) order by sys_menu.order_num
+
+    </select>
+
+</mapper>

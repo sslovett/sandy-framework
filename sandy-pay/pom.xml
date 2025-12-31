@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>sandy-framework</artifactId>
+        <groupId>com.sandy.fw</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>sandy-pay</artifactId>
+    <description>Sandy Framework 支付模块</description>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <!-- 公共模块 -->
+        <dependency>
+            <groupId>com.sandy.fw</groupId>
+            <artifactId>sandy-common</artifactId>
+            <version>${sandy-common.version}</version>
+        </dependency>
+        
+        <!-- 安全模块 -->
+        <dependency>
+            <groupId>com.sandy.fw</groupId>
+            <artifactId>sandy-security</artifactId>
+            <version>${sandy-security.version}</version>
+        </dependency>
+        
+        <!-- 多数据源动态切换 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
