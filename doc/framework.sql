@@ -76,7 +76,7 @@ CREATE TABLE `sys_menu`  (
   `path` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '路由地址',
   `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '组件路径',
   `type` tinyint(1) NULL DEFAULT 0 COMMENT '类型   0：目录   1：菜单   2：按钮',
-  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '菜单状态（0正常 1停用）',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '菜单状态（1正常 0停用）',
   `perms` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限标识',
   `icon` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '#' COMMENT '菜单图标',
   `create_by` bigint(20) NULL DEFAULT NULL COMMENT '创建者',
@@ -162,7 +162,7 @@ CREATE TABLE `sys_user`  (
   `user_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'NULL' COMMENT '用户名',
   `nick_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'NULL' COMMENT '昵称',
   `password` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'NULL' COMMENT '密码',
-  `status` tinyint(1) NULL DEFAULT NULL COMMENT '账号状态（0正常 1停用）',
+  `status` tinyint(1) NULL DEFAULT NULL COMMENT '账号状态（1正常 0停用）',
   `email` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '手机号',
   `sex` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户性别（0男，1女，2未知）',
@@ -179,8 +179,8 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '超级管理员', '{bcrypt}$2a$10$Tk/7jOwsdeNg4opakiZslOD.ZWrnSExmaq/0n.GXsbZTcFfxwbl3.', 1, 'admin@cdqcp.com', '13540179099', NULL, NULL, '0', NULL, '2024-03-25 14:52:11', NULL, NULL, 0);
-INSERT INTO `sys_user` VALUES (2, 'sandy', '山哥哥', '{bcrypt}$2a$10$AV9Xz.3ck4RsXiad5ArcBO5.ZKwlpcnJzs740BHY..fsSp0PnM/Zu', 1, 'sandy@cdqcp.com', '11111111111', NULL, NULL, '1', NULL, '2024-03-26 13:53:39', NULL, NULL, 0);
+INSERT INTO `sys_user` VALUES (1, 'admin', '超级管理员', '{bcrypt}$2a$10$Tk/7jOwsdeNg4opakiZslOD.ZWrnSExmaq/0n.GXsbZTcFfxwbl3.', 1, 'admin@qq.com', '11111111112', NULL, NULL, '0', NULL, '2024-03-25 14:52:11', NULL, NULL, 0);
+INSERT INTO `sys_user` VALUES (2, 'sandy', '山哥哥', '{bcrypt}$2a$10$AV9Xz.3ck4RsXiad5ArcBO5.ZKwlpcnJzs740BHY..fsSp0PnM/Zu', 1, 'sandy@qq.com', '11111111111', NULL, NULL, '1', NULL, '2024-03-26 13:53:39', NULL, NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role

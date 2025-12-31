@@ -2,6 +2,10 @@
 
 本项目是基于ruoyi-vue-pro前端改造了一个基于 Spring Boot + Spring Security + MyBatis Plus + Vue3 的轻量级前后端分离权限管理基础框架，开箱即用。
 
+## 截图
+
+![img.png](img.png)
+
 ## ✨ 功能特性
 
 - 🔐 用户认证：登录 + 滑块验证码
