@@ -4,7 +4,7 @@
 
 ## 截图
 
-![img.png](img.png)
+![img.png](doc/img/img.png)
 
 ## ✨ 功能特性
 

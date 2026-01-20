@@ -30,7 +30,7 @@ public class SwaggerConfig {
     private ApiInfo webApiInfo() {
         return new ApiInfoBuilder()
                 //文档标题
-                .title("伊力管理系统接口文档")
+                .title("管理系统接口文档")
                 //文档描述
                 .description("本文档描述了用户管理系统的接口定义")
                 //文档版本
